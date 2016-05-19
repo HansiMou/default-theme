@@ -5,12 +5,22 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>{{main.game().name()}}</title>
-  <meta name="description" ng-attr-content="{{main.game().name()}}">
+  <!-- I would love using in title:
+  {{main.game().name()}}
+  but it won't work for FB sharing because they don't run JS:
+  http://www.michaelbromley.co.uk/blog/171/enable-rich-social-sharing-in-your-angularjs-app
+  If I ever switch to AppEngine for static content, I could solve it server-side.
+   -->
+  <title>yCheckers</title>
+  <meta name="description" content="American Checkers with fun surprises." 
+    ng-attr-content="{{main.game().name()}}" >
+  <meta property="og:title" content="yCheckers" />
+  <meta property="og:description" content="American Checkers with fun surprises." />
+  <meta property="og:image" content="//yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/512x512.png" />  
   <link rel="shortcut icon" type="image/x-icon" 
       ng-attr-href="{{main.replaceProtocol(main.game().customize('shortcutIcon', 'data:image/x-icon;,'))}}"
-      href='data:image/x-icon;,'>
-      <!-- Suppress browser request for favicon.ico if you don't customize it -->
+      href='data:image/x-icon;,'><!-- Suppress browser request for favicon.ico if you don't customize it -->
+  <link rel="apple-touch-icon" ng-attr-href="{{main.replaceProtocol(main.game().customize('shortcutIcon', ''))}}"/>
   <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <meta name="format-detection" content="telephone=no" />
   
