@@ -14,9 +14,18 @@
   <title>yCheckers</title>
   <meta name="description" content="American Checkers with fun surprises." 
     ng-attr-content="{{main.game().name()}}" >
+  <meta property="og:url" content="http://ycheckers.com" />
   <meta property="og:title" content="yCheckers" />
+  <meta property="og:site_name" content="yCheckers" />
   <meta property="og:description" content="American Checkers with fun surprises." />
-  <meta property="og:image" content="//yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/512x512.png" />  
+  <meta property="og:image" content="http://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />  
+  <meta property="og:image:secure_url" content="https://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <!-- see https://developers.facebook.com/docs/sharing/best-practices#images -->
+  <meta property="og:image:width" content="600" />
+  <meta property="og:image:height" content="314" />
+  <meta property="fb:app_id" content="484379691769601" />
+  
   <link rel="shortcut icon" type="image/x-icon" 
       ng-attr-href="{{main.replaceProtocol(main.game().customize('shortcutIcon', 'data:image/x-icon;,'))}}"
       href='data:image/x-icon;,'><!-- Suppress browser request for favicon.ico if you don't customize it -->
