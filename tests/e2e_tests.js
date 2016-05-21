@@ -989,6 +989,17 @@ var e2eTests;
                     mainPage.expectNoMatches(); // Ok to have matches before loadApp()
                 notifications.expectNoNotifications();
                 leftNav.waitTillClosed();
+                // Check all single-player matches are empty.
+                mainPage.openNewMatchModal().startPractice();
+                tictactoe.run(function () {
+                    tictactoe.expectEmptyBoard();
+                });
+                playPage.gotoMain();
+                mainPage.openNewMatchModal().startPassAndPlay();
+                tictactoe.run(function () {
+                    tictactoe.expectEmptyBoard();
+                });
+                playPage.gotoMain();
                 willDoLog("End checkInvariantsInCurrBrowser");
             }
         }
@@ -1299,6 +1310,13 @@ var e2eTests;
             playPage.gotoMain();
             // Restart a new practice match.
             mainPage.openNewMatchModal().startPractice();
+            // Still old board
+            tictactoe.run(function () {
+                tictactoe.expectBoard([['O', '', ''],
+                    ['X', '', ''],
+                    ['', '', '']]);
+            });
+            playPage.openExtraMatchOptions().startRematch();
             tictactoe.run(function () {
                 tictactoe.expectEmptyBoard();
             });
@@ -1329,6 +1347,12 @@ var e2eTests;
             // Restart passAndPlay
             playPage.gotoMain();
             mainPage.openNewMatchModal().startPassAndPlay();
+            tictactoe.run(function () {
+                tictactoe.expectBoard([['X', '', ''],
+                    ['', 'O', ''],
+                    ['', '', '']]);
+            });
+            playPage.openExtraMatchOptions().startRematch();
             tictactoe.run(function () {
                 tictactoe.expectEmptyBoard();
             });
@@ -1361,7 +1385,7 @@ var e2eTests;
                 tictactoe.expectPiece(0, 2, 'O'); // AI played at position 0x0
             });
             expectDisplayed(id('game_over_match_status'));
-            gameOverModal.close();
+            gameOverModal.newMatch();
             playPage.gotoMain();
         });
         it('from ismailmustafa and pdhar (team Carrom)@: can finish a passAndPlay match, go to the main menu, finish a practice match, and go back to main menu', function () {
@@ -1384,11 +1408,12 @@ var e2eTests;
             });
             // Check for game over modal, close, and go to main
             expectDisplayed(id('game_over_match_status'));
-            gameOverModal.close();
+            gameOverModal.newMatch();
             playPage.gotoMain();
             // Start a practice match
             mainPage.openNewMatchModal().startPractice();
             tictactoe.run(function () {
+                tictactoe.expectEmptyBoard();
                 tictactoe.clickDivAndExpectPiece(1, 1, 'X');
                 currBrowser.driver.wait(protractor.until.elementsLocated(by.id('e2e_test_pieceO_0x0')), 10000);
                 tictactoe.clickDivAndExpectPiece(2, 2, 'X');
@@ -1401,7 +1426,7 @@ var e2eTests;
             });
             // Check for game over modal, close, and go to main
             expectDisplayed(id('game_over_match_status'));
-            gameOverModal.close();
+            gameOverModal.newMatch();
             playPage.gotoMain();
         });
         it('from pioneers team (Hung-Ting Wen): single-player game ends in win/lose', function () {
@@ -1443,7 +1468,7 @@ var e2eTests;
             expectDisplayed(id('game_over_match_status'));
             l10n.expectTranslate(gameOverModal.getMatchOverStatus(), 'MATCH_STATUS_OPPONENT_WON_WITH_NAME', { OPPONENT_NAME: 'PLAYER_O' });
             //Cleanup
-            gameOverModal.close();
+            gameOverModal.newMatch();
             playPage.gotoMain();
         });
         it('from pioneers team (Hung-Ting Wen): single player game ends in a tie', function () {
@@ -1469,7 +1494,7 @@ var e2eTests;
             expectDisplayed(id('game_over_match_status'));
             l10n.expectTranslate(gameOverModal.getMatchOverStatus(), 'MATCH_STATUS_ENDED_IN_TIE', {});
             //Cleanup
-            gameOverModal.close();
+            gameOverModal.newMatch();
             playPage.gotoMain();
         });
         it('from Shuang Wang (Enclosed Combat team): can start a match from gameinvite, player1 blocks player2, and player2 receives block message when invite player1 to a new game', function () {

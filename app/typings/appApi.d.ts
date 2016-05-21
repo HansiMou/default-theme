@@ -78,6 +78,7 @@ interface App {
   notifications(): Notification[];
 
   // Starts a new single player match. singlePlayerType is either 'practice' or 'passAndPlay'
+  // If a single player match already exists, then it continues it.
   newSinglePlayer(singlePlayerType: string): void;
   newMultiplayerAutoMatch(): void;
   startMatchWith(opponents: Player[]): void;

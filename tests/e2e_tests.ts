@@ -944,6 +944,17 @@ describe('App ', function() {
       if (isPostTest) mainPage.expectNoMatches(); // Ok to have matches before loadApp()
       notifications.expectNoNotifications();
       leftNav.waitTillClosed();
+      // Check all single-player matches are empty.
+      mainPage.openNewMatchModal().startPractice();
+      tictactoe.run(()=>{
+        tictactoe.expectEmptyBoard();
+      });
+      playPage.gotoMain();
+      mainPage.openNewMatchModal().startPassAndPlay();
+      tictactoe.run(()=>{
+        tictactoe.expectEmptyBoard();
+      });
+      playPage.gotoMain();
       willDoLog("End checkInvariantsInCurrBrowser");
     }
   }
@@ -1284,6 +1295,14 @@ describe('App ', function() {
     playPage.gotoMain();
     // Restart a new practice match.
     mainPage.openNewMatchModal().startPractice();
+    // Still old board
+    tictactoe.run(()=>{
+      tictactoe.expectBoard(
+        [['O', '', ''],
+         ['X', '', ''],
+         ['', '', '']]);
+    });
+    playPage.openExtraMatchOptions().startRematch();
     tictactoe.run(()=>{
       tictactoe.expectEmptyBoard();
     });
@@ -1316,6 +1335,13 @@ describe('App ', function() {
     // Restart passAndPlay
     playPage.gotoMain();
     mainPage.openNewMatchModal().startPassAndPlay();
+    tictactoe.run(()=>{
+      tictactoe.expectBoard(
+          [['X', '', ''],
+           ['', 'O', ''],
+           ['', '', '']]);
+    });
+    playPage.openExtraMatchOptions().startRematch();
     tictactoe.run(()=>{
       tictactoe.expectEmptyBoard();
     });
@@ -1350,7 +1376,7 @@ describe('App ', function() {
         tictactoe.expectPiece(0, 2, 'O'); // AI played at position 0x0
     });
     expectDisplayed(id('game_over_match_status'));
-    gameOverModal.close();
+    gameOverModal.newMatch();
     playPage.gotoMain();
   });
 
@@ -1376,12 +1402,13 @@ describe('App ', function() {
     
     // Check for game over modal, close, and go to main
     expectDisplayed(id('game_over_match_status'));
-    gameOverModal.close();
+    gameOverModal.newMatch();
     playPage.gotoMain();
     
     // Start a practice match
     mainPage.openNewMatchModal().startPractice();
     tictactoe.run(()=>{
+      tictactoe.expectEmptyBoard();
       tictactoe.clickDivAndExpectPiece(1, 1, 'X');
       currBrowser.driver.wait(protractor.until.elementsLocated(by.id('e2e_test_pieceO_0x0')), 10000);
       tictactoe.clickDivAndExpectPiece(2, 2, 'X');
@@ -1396,7 +1423,7 @@ describe('App ', function() {
     
     // Check for game over modal, close, and go to main
     expectDisplayed(id('game_over_match_status'));
-    gameOverModal.close();
+    gameOverModal.newMatch();
     playPage.gotoMain();
   });
   
@@ -1444,7 +1471,7 @@ describe('App ', function() {
     l10n.expectTranslate(gameOverModal.getMatchOverStatus(), 'MATCH_STATUS_OPPONENT_WON_WITH_NAME', {OPPONENT_NAME: 'PLAYER_O'});
     
     //Cleanup
-    gameOverModal.close();
+    gameOverModal.newMatch();
     playPage.gotoMain();
   });
   
@@ -1473,7 +1500,7 @@ describe('App ', function() {
     expectDisplayed(id('game_over_match_status'));
     l10n.expectTranslate(gameOverModal.getMatchOverStatus(), 'MATCH_STATUS_ENDED_IN_TIE', {});
     //Cleanup
-    gameOverModal.close();
+    gameOverModal.newMatch();
     playPage.gotoMain();
   });
   
