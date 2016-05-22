@@ -190,12 +190,15 @@ textarea, input {
   background-color: #3a5795;
   padding: 6px;
   border-radius: 5px;
-  margin-right: 10px;
-  margin-top: 8px;
-  margin-left: 52px;
   color: white;
   font-weight: bold;
   font-size: 15px;
+}
+
+.facebook-login-in-left-nav {
+  margin-right: 10px;
+  margin-top: 8px;
+  margin-left: 52px;
 }
 
 /* similar to md-avatar: 40x40 img, 

@@ -12,13 +12,13 @@
   If I ever switch to AppEngine for static content, I could solve it server-side.
    -->
   <title>yCheckers</title>
-  <meta name="description" content="American Checkers with fun surprises." 
+  <meta name="description" content="Cause checkers is fun with friends." 
     ng-attr-content="{{main.game().name()}}" >
   <meta property="og:url" content="http://ycheckers.com" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="yCheckers" />
   <meta property="og:site_name" content="yCheckers" />
-  <meta property="og:description" content="American Checkers with fun surprises." />
+  <meta property="og:description" content="Cause checkers is fun with friends." />
   <meta property="og:image" content="http://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />  
   <meta property="og:image:secure_url" content="https://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -65,7 +65,7 @@
       
       <div id="test_my_info_fb_login"
           ng-if="main.fb().showLoginButton()"
-          ng-click="main.fb().login()" class="facebook-login">
+          ng-click="main.fb().login()" class="facebook-login facebook-login-in-left-nav">
         {{ 'MAIN_LOG_IN_WITH_FACEBOOK' | translate }}
       </div>
           
@@ -414,6 +414,40 @@
       <md-icon class="material-icons">delete</md-icon>
       {{ 'MATCH_RESIGN_AND_DELETE' | translate }}
     </md-button>
+  </md-dialog-actions>
+</md-dialog>
+</script>
+
+<script type="text/ng-template" id="html-templates/facebookLoginDialog.html">
+<md-dialog aria-label="Login to facebook">
+  <md-dialog-content style="margin:20px;">
+    <div layout="row">
+      <md-icon class="material-icons" style="margin: 5px 16px auto 0;">language</md-icon>
+      <md-select
+          style="margin: 0"
+          aria-label="{{'LANGUAGE' | translate }}" 
+          ng-if="main.l10n().getSupportedLanguages().length > 1"
+          ng-model="main.model().currentLanguage" 
+          ng-change="main.l10n().changeLanguage(main.model().currentLanguage)">
+        <md-option ng-repeat="language in main.l10n().getSupportedLanguages()" value="{{language.code}}">{{language.name}}</md-option>
+      </md-select>
+    </div>
+    <div style="margin-top:10px;">{{ 'FB_LOGIN_MOTIVATE' | translate }}</div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <div layout="column">
+      <md-button 
+          ng-if="main.fb().showLoginButton()"
+          ng-click="main.fb().login()">
+        <div class="facebook-login">
+          {{ 'MAIN_LOG_IN_WITH_FACEBOOK' | translate }}
+        </div>
+      </md-button>
+      <md-button id="test_close_fb_login_dialog" ng-click="$mdDialog.cancel()">
+        <md-icon class="material-icons">close</md-icon>
+        {{ 'NOT_NOW' | translate }}
+      </md-button>
+    </div>
   </md-dialog-actions>
 </md-dialog>
 </script>

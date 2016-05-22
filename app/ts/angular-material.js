@@ -38,9 +38,12 @@
                     // Two dialog actions
                     $rootScope.closeSwipedMatchDialog = function () { return $mdDialog.cancel(); };
                     $rootScope.dismissSwipedMatch = function () { match.dismiss(); $mdDialog.cancel(); };
+                    openDialogTemplate('html-templates/dismissSwipedMatchDialog.html');
+                }
+                function openDialogTemplate(templateUrl) {
                     $mdDialog.show({
                         clickOutsideToClose: true,
-                        templateUrl: 'html-templates/dismissSwipedMatchDialog.html',
+                        templateUrl: 'html-templates/facebookLoginDialog.html',
                         scope: $rootScope,
                         preserveScope: true,
                     });
@@ -125,7 +128,8 @@
                     if (main.isFirstTimeUser()) {
                         main.passMessageToGame({ SHOW_GAME_INSTRUCTIONS: true }); // Open the instructions (when you'll navigate to the playPage) on first use.
                         $timeout(function () {
-                            $mdSidenav('left').toggle();
+                            openDialogTemplate('html-templates/facebookLoginDialog.html');
+                            //$mdSidenav('left').toggle();
                         }, 500); // I wait half a second just for the user to see the game title for a bit.
                     }
                 });

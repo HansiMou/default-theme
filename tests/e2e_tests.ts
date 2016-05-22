@@ -911,9 +911,9 @@ describe('App ', function() {
     return name;
   }
   
-  function closeLeftNavAndMaybeGameinviteNotification() {
-    // Before closing any notification (like gameinvite), we need to close leftNav
-    leftNav.close();
+  function closeFbLoginDialogAndMaybeGameinviteNotification() {
+    // Before closing any notification (like gameinvite), we need to close FB login dialog.
+    clickAndWaitToDisappear(id('close_fb_login_dialog'));
     notifications.expectMaybeGameinviteNotification();
   }
   
@@ -1214,10 +1214,10 @@ describe('App ', function() {
 
   function oneTimeInitInBothBrowsers() {
     // The first time the app loads, we show leftNav.
-    closeLeftNavAndMaybeGameinviteNotification();
+    closeFbLoginDialogAndMaybeGameinviteNotification();
     runInSecondBrowser(()=>{
       loadApp();
-      closeLeftNavAndMaybeGameinviteNotification();
+      closeFbLoginDialogAndMaybeGameinviteNotification();
     });
     
     changeDisplayName(browser1NameStr);

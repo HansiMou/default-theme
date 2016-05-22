@@ -1,6 +1,26 @@
 (function () {
     ;
     var platformTranslations = {
+        "FB_LOGIN_MOTIVATE": {
+            "en": "Log in to Facebook so you could play with your Facebook friends!",
+            "iw": "התחבר לפייסבוק, כך שתוכל לשחק עם החברים שלך בפייסבוק!",
+            "pt": "Fazer login no Facebook para que você pode jogar com seus amigos do Facebook!",
+            "zh": "登录Facebook，所以你可以与你的Facebook朋友玩",
+            "el": "Συνδεθείτε με το Facebook ώστε να μπορείτε να παίξετε με τους φίλους σας στο Facebook!",
+            "fr": "Connectez-vous à Facebook pour que vous puissiez jouer avec vos amis Facebook!",
+            "hi": "फेसबुक में प्रवेश करें, तो आप अपने फेसबुक दोस्तों के साथ खेल सकते हैं",
+            "es": "Iniciar sesión en Facebook por lo que podría jugar con tus amigos en Facebook!"
+        },
+        "NOT_NOW": {
+            "en": "Not now",
+            "iw": "לא עכשיו",
+            "pt": "Agora não",
+            "zh": "不是现在",
+            "el": "Όχι τώρα",
+            "fr": "Pas maintenant",
+            "hi": "अभी नहीं",
+            "es": "Ahora no"
+        },
         "GAME_INSTRUCTIONS": {
             "en": "Game instructions",
             "iw": "הוראות משחק",
