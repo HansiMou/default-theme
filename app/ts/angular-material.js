@@ -23,27 +23,33 @@
                     .primaryPalette(customize('primaryPalette', 'blue'))
                     .accentPalette(customize('accentPalette', 'red'));
             }])
+            .directive('gpMatchListItem', function () {
+            return {
+                templateUrl: 'html-templates/matchListItem.html',
+                restrict: 'A',
+            };
+        })
             .run(['$rootScope', '$timeout',
             '$mdSidenav', '$mdMedia', '$mdComponentRegistry',
             '$mdBottomSheet', '$mdDialog', '$mdMenu',
             function ($rootScope, $timeout, $mdSidenav, $mdMedia, $mdComponentRegistry, $mdBottomSheet, $mdDialog, $mdMenu) {
-                function swipedMatch(match) {
+                function confirmDismiss(match) {
                     if (match.isOver()) {
                         match.dismiss();
                         return;
                     }
                     // Two getters
-                    $rootScope.getSwipedMatch = function () { return match; };
-                    $rootScope.swipedMatchDialogTitle = function () { return translate('SURE_YOU_WANT_TO_RESIGN', { OPPONENTS_NAME: match.getOpponentNames() }); };
+                    $rootScope.getConfirmDismissMatch = function () { return match; };
+                    $rootScope.confirmDismissDialogTitle = function () { return translate('SURE_YOU_WANT_TO_RESIGN', { OPPONENTS_NAME: match.getOpponentNames() }); };
                     // Two dialog actions
-                    $rootScope.closeSwipedMatchDialog = function () { return $mdDialog.cancel(); };
-                    $rootScope.dismissSwipedMatch = function () { match.dismiss(); $mdDialog.cancel(); };
-                    openDialogTemplate('html-templates/dismissSwipedMatchDialog.html');
+                    $rootScope.closeConfirmDismissDialog = function () { return $mdDialog.cancel(); };
+                    $rootScope.dismissConfirmDismissMatch = function () { match.dismiss(); $mdDialog.cancel(); };
+                    openDialogTemplate('html-templates/confirmDismissDialog.html');
                 }
                 function openDialogTemplate(templateUrl) {
                     $mdDialog.show({
                         clickOutsideToClose: true,
-                        templateUrl: 'html-templates/facebookLoginDialog.html',
+                        templateUrl: templateUrl,
                         scope: $rootScope,
                         preserveScope: true,
                     });
@@ -116,7 +122,7 @@
                 $rootScope['$mdDialog'] = $mdDialog;
                 $rootScope['$mdMenu'] = $mdMenu;
                 $rootScope['showPlayerBottomSheet'] = showPlayerBottomSheet;
-                $rootScope['swipedMatch'] = swipedMatch;
+                $rootScope['confirmDismiss'] = confirmDismiss;
                 $rootScope['openFeedbackDialog'] = openFeedbackDialog;
                 $rootScope.$watch("main.isModalShowing('gameOverModal')", gameOverModalShowingChanged);
                 $rootScope.$watch("main.isModalShowing('playerInfoModal')", playerInfoModalShowingChanged);

@@ -159,23 +159,8 @@
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_YOUR_TURN_MATCHES' | translate }}</md-subheader>
         <md-list>
           <md-list-item class="md-2-line" 
-              ng-repeat="match in main.yourTurnMatches() track by match.getMatchId()">
-            <img 
-                  ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})"
-                  ng-src="{{player.getAvatarImage()}}"
-                  ng-click="showPlayerBottomSheet(player, match)"
-                  alt="{{player.getDisplayName()}}" 
-                  class="md-avatar">
-            <div class="md-list-item-text" ng-click="match.load()">
-              <h3 ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})">
-                {{player.getDisplayName()}}</h3>
-              <p>
-                {{main.timeAgo(match.updatedTime())}}
-              </p>
-            </div>
-            <md-icon class="material-icons md-secondary md-hue-3" 
-                aria-label="{{'MATCH_RESIGN_AND_DELETE' | translate }}"
-                ng-click="swipedMatch(match)">delete</md-icon>
+              ng-repeat="match in main.yourTurnMatches() track by match.getMatchId()"
+              gp-match-list-item>
           </md-list-item>
         </md-list>
         <md-divider inset></md-divider>
@@ -184,23 +169,8 @@
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_OPPONENT_TURN_MATCHES' | translate }}</md-subheader>
         <md-list>
           <md-list-item class="md-2-line" 
-                ng-repeat="match in main.opponentTurnMatches() track by match.getMatchId()">
-              <img 
-                  ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})"
-                  ng-src="{{player.getAvatarImage()}}"
-                  ng-click="showPlayerBottomSheet(player, match)"
-                  alt="{{player.getDisplayName()}}" 
-                  class="md-avatar">
-            <div class="md-list-item-text" ng-click="match.load()">
-              <h3 ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})">
-                {{player.getDisplayName()}}</h3>
-              <p>
-                {{main.timeAgo(match.updatedTime())}}
-              </p>
-            </div>
-            <md-icon class="material-icons md-secondary md-hue-3" 
-                aria-label="{{'MATCH_RESIGN_AND_DELETE' | translate }}"
-                ng-click="swipedMatch(match)">delete</md-icon>
+              ng-repeat="match in main.opponentTurnMatches() track by match.getMatchId()"
+              gp-match-list-item>
           </md-list-item>
         </md-list>
         <md-divider inset></md-divider>
@@ -209,25 +179,8 @@
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_ENDED_MATCHES' | translate }}</md-subheader>
         <md-list>
           <md-list-item class="secondary-button-padding md-3-line" 
-              ng-repeat="match in main.endedMatches() track by match.getMatchId()">
-              
-            <img 
-                  ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})"
-                  ng-src="{{player.getAvatarImage()}}"
-                  ng-click="showPlayerBottomSheet(player, match)"
-                  alt="{{player.getDisplayName()}}" 
-                  class="md-avatar">
-            <div class="md-list-item-text" ng-click="match.load()">
-              <h3 ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})">
-                {{player.getDisplayName()}}</h3>
-              <h4>{{match.getMatchStatusText({showDisplayName:false})}}</h4>
-              <p>
-                {{main.timeAgo(match.updatedTime())}}
-              </p>
-            </div>
-            <md-icon class="material-icons md-secondary md-hue-3"
-                aria-label="{{'MATCH_DELETE' | translate }}"
-                ng-click="match.dismiss()">delete</md-icon>
+              ng-repeat="match in main.endedMatches() track by match.getMatchId()"
+              gp-match-list-item>
           </md-list-item>
         </md-list>
         <md-divider inset></md-divider>
@@ -393,24 +346,71 @@
 </div>
 </script>
 
-<script type="text/ng-template" id="html-templates/dismissSwipedMatchDialog.html">
+<script type="text/ng-template" id="html-templates/matchListItem.html">
+<img 
+    ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})"
+    ng-src="{{player.getAvatarImage()}}"
+    ng-click="showPlayerBottomSheet(player, match)"
+    alt="{{player.getDisplayName()}}" 
+    class="md-avatar">
+<div class="md-list-item-text" ng-click="match.load()">
+  <h3 ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})">
+    {{player.getDisplayName()}}</h3>
+  <h4 ng-if="match.isOver()">{{match.getMatchStatusText({showDisplayName:false})}}</h4>
+  <p>
+    {{main.timeAgo(match.updatedTime())}}
+  </p>
+</div>
+<md-icon class="material-icons md-secondary md-hue-3" 
+    aria-label="{{ match.isOver() ? 'MATCH_DELETE' : 'MATCH_RESIGN_AND_DELETE' | translate }}"
+    ng-click="confirmDismiss(match)">delete</md-icon>
+<!--
+  
+<md-menu>
+  <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" id="test_open_match_menu" aria-label="Game menu">
+    <md-icon
+        class="material-icons">more_vert</md-icon>
+  </md-button>
+  <md-menu-content>
+    
+    <md-menu-item ng-if="main.currentMatch().canStartNewMatch()">
+      <md-button id="test_start_rematch" ng-click="main.currentMatch().startNewMatch()">
+        <md-icon class="material-icons">replay</md-icon>
+        {{ main.currentMatch().isSinglePlayer() ? 'MATCH_NEW_GAME' : 'REMATCH' | translate }}
+      </md-button>
+    </md-menu-item>
+    
+    <md-divider ng-if="!main.currentMatch().isSinglePlayer()" class="menu-divider"></md-divider>
+    <md-menu-item ng-if="!main.currentMatch().isSinglePlayer()">
+      <md-button class="md-warn" id="test_dismiss_match"
+          ng-click="main.currentMatch().dismissAndLoadNextMatchOrMainPage();">
+        <md-icon class="material-icons">delete</md-icon>
+        {{ main.currentMatch().isOver() ? 'MATCH_DELETE' : 'MATCH_RESIGN_AND_DELETE' | translate }}
+      </md-button>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>
+-->
+</script>
+
+<script type="text/ng-template" id="html-templates/confirmDismissDialog.html">
 <md-dialog aria-label="Are you sure you want to resign?">
   <md-dialog-content>
     <div layout="row" layout-align="left center" layout-margin style="margin:20px">
-      {{swipedMatchDialogTitle()}}
+      {{confirmDismissDialogTitle()}}
       <img 
-          ng-repeat="player in getSwipedMatch().getPlayers({limit:1, excludeMe: true})"
+          ng-repeat="player in getConfirmDismissMatch().getPlayers({limit:1, excludeMe: true})"
           ng-src="{{player.getAvatarImage()}}"
           alt="{{player.getDisplayName()}}" 
           class="avatar">
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <md-button ng-click="closeSwipedMatchDialog()">
+    <md-button ng-click="closeConfirmDismissDialog()">
       <md-icon class="material-icons">close</md-icon>
       {{ 'MODAL_BUTTON_CLOSE' | translate }}
     </md-button>
-    <md-button class="md-warn" ng-click="dismissSwipedMatch()">
+    <md-button class="md-warn" ng-click="dismissConfirmDismissMatch()">
       <md-icon class="material-icons">delete</md-icon>
       {{ 'MATCH_RESIGN_AND_DELETE' | translate }}
     </md-button>

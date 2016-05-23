@@ -205,7 +205,7 @@ textarea, input {
   though recommended hit area should actually be 48x48.
   Hit-area is only affected by padding (margins don't count in hit area),
   and if I increase padding then the border is far from the avatar.
-  min-height and min-width are needed on ios to prevent "shrinking" of the avatar (in dismissSwipedMatchDialog)
+  min-height and min-width are needed on ios to prevent "shrinking" of the avatar (in confirmDismissDialog)
  */
 .avatar {
   width: 40px;

@@ -23,6 +23,13 @@ w.gamingPlatformInitFinished = function () {
           .primaryPalette(customize('primaryPalette', 'blue'))
           .accentPalette(customize('accentPalette', 'red'));
     }])
+  .directive('gpMatchListItem', 
+    function () {
+      return {
+        templateUrl: 'html-templates/matchListItem.html',
+        restrict: 'A',
+      };
+    })
   .run(['$rootScope', '$timeout', 
       '$mdSidenav', '$mdMedia', '$mdComponentRegistry',
       '$mdBottomSheet', '$mdDialog', '$mdMenu',
@@ -30,26 +37,26 @@ w.gamingPlatformInitFinished = function () {
         $mdSidenav: any, $mdMedia: any, $mdComponentRegistry: any, 
         $mdBottomSheet: any, $mdDialog: any, $mdMenu: any) {
           
-      function swipedMatch(match: gamingPlatform.api.Match) {
+      function confirmDismiss(match: gamingPlatform.api.Match) {
         if (match.isOver()) {
           match.dismiss();
           return;
         }
         // Two getters
-        $rootScope.getSwipedMatch = ()=>match;
-        $rootScope.swipedMatchDialogTitle = ()=>translate('SURE_YOU_WANT_TO_RESIGN', 
+        $rootScope.getConfirmDismissMatch = ()=>match;
+        $rootScope.confirmDismissDialogTitle = ()=>translate('SURE_YOU_WANT_TO_RESIGN', 
             {OPPONENTS_NAME: match.getOpponentNames()});
         // Two dialog actions
-        $rootScope.closeSwipedMatchDialog = ()=>$mdDialog.cancel();
-        $rootScope.dismissSwipedMatch = ()=>{match.dismiss(); $mdDialog.cancel();};
+        $rootScope.closeConfirmDismissDialog = ()=>$mdDialog.cancel();
+        $rootScope.dismissConfirmDismissMatch = ()=>{match.dismiss(); $mdDialog.cancel();};
        
-        openDialogTemplate('html-templates/dismissSwipedMatchDialog.html');
+        openDialogTemplate('html-templates/confirmDismissDialog.html');
       }
       
       function openDialogTemplate(templateUrl: string) {
         $mdDialog.show({
           clickOutsideToClose: true,
-          templateUrl: 'html-templates/facebookLoginDialog.html',
+          templateUrl: templateUrl,
           scope: $rootScope,
           preserveScope: true,
         });
@@ -131,7 +138,7 @@ w.gamingPlatformInitFinished = function () {
       $rootScope['$mdMenu'] = $mdMenu;
       
       $rootScope['showPlayerBottomSheet'] = showPlayerBottomSheet;
-      $rootScope['swipedMatch'] = swipedMatch;
+      $rootScope['confirmDismiss'] = confirmDismiss;
       $rootScope['openFeedbackDialog'] = openFeedbackDialog;
       $rootScope.$watch("main.isModalShowing('gameOverModal')", gameOverModalShowingChanged);
       $rootScope.$watch("main.isModalShowing('playerInfoModal')", playerInfoModalShowingChanged);
