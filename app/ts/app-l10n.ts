@@ -8,6 +8,16 @@
   }
   let platformTranslations: Translations = 
   {
+  "CHAT_ICON": {
+    "en": "Chat",
+    "iw": "צ'ט",
+    "pt": "Conversar",
+    "zh": "聊",
+    "el": "Κουβέντα",
+    "fr": "bavarder",
+    "hi": "बातचीत",
+    "es": "Charla"
+  },
   "FB_LOGIN_MOTIVATE": {
     "en": "Log in to Facebook so you could play with your Facebook friends!",
     "iw": "התחבר לפייסבוק, כך שתוכל לשחק עם החברים שלך בפייסבוק!",
@@ -617,16 +627,6 @@
     "fr": "fermer",
     "hi": "बंद करे",
     "es": "Cerrar"
-  },
-  "MODAL_BUTTON_INVITE_TO_NEW_MATCH": {
-    "en": "New game",
-    "iw": "משחק חדש",
-    "pt": "Novo jogo",
-    "zh": "新游戏",
-    "el": "Νέο παιχνίδι",
-    "fr": "nouvelle partie",
-    "hi": "नया खेल",
-    "es": "Juego nuevo"
   },
   "CHAT_MESSAGE_LABEL": {
     "en": "Type in a chat message",

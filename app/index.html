@@ -158,7 +158,7 @@
       <section ng-if="main.yourTurnMatches().length">
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_YOUR_TURN_MATCHES' | translate }}</md-subheader>
         <md-list>
-          <md-list-item class="md-2-line" 
+          <md-list-item class="md-2-line _md-no-proxy" 
               ng-repeat="match in main.yourTurnMatches() track by match.getMatchId()"
               gp-match-list-item>
           </md-list-item>
@@ -168,7 +168,7 @@
       <section ng-if="main.opponentTurnMatches().length">
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_OPPONENT_TURN_MATCHES' | translate }}</md-subheader>
         <md-list>
-          <md-list-item class="md-2-line" 
+          <md-list-item class="md-2-line _md-no-proxy" 
               ng-repeat="match in main.opponentTurnMatches() track by match.getMatchId()"
               gp-match-list-item>
           </md-list-item>
@@ -178,7 +178,7 @@
       <section ng-if="main.endedMatches().length">
         <md-subheader class="md-primary">{{ 'MAIN_MATCH_GROUP_ENDED_MATCHES' | translate }}</md-subheader>
         <md-list>
-          <md-list-item class="secondary-button-padding md-3-line" 
+          <md-list-item class="secondary-button-padding md-3-line _md-no-proxy" 
               ng-repeat="match in main.endedMatches() track by match.getMatchId()"
               gp-match-list-item>
           </md-list-item>
@@ -260,6 +260,13 @@
                 ng-click="main.shareInviteLink({takePrintscreen: true})">
               <md-icon class="material-icons">share</md-icon>
               {{ main.isInApp() ? 'MATCH_SHARE_PRINTSCREEN' : 'SHARE' | translate }}
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="canShowPlayerBottomSheet(null, main.currentMatch())">
+            <md-button id="test_open_chat" 
+                ng-click="showPlayerBottomSheet(null, main.currentMatch())">
+              <md-icon class="material-icons">chat</md-icon>
+              {{ 'CHAT_ICON' | translate }}
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="main.currentMatch().canStartNewMatch()">
@@ -350,7 +357,7 @@
 <img 
     ng-repeat="player in match.getPlayers({limit:1, excludeMe: true})"
     ng-src="{{player.getAvatarImage()}}"
-    ng-click="showPlayerBottomSheet(player, match)"
+    ng-click="match.load()"
     alt="{{player.getDisplayName()}}" 
     class="md-avatar">
 <div class="md-list-item-text" ng-click="match.load()">
@@ -361,36 +368,37 @@
     {{main.timeAgo(match.updatedTime())}}
   </p>
 </div>
-<md-icon class="material-icons md-secondary md-hue-3" 
-    aria-label="{{ match.isOver() ? 'MATCH_DELETE' : 'MATCH_RESIGN_AND_DELETE' | translate }}"
-    ng-click="confirmDismiss(match)">delete</md-icon>
-<!--
-  
-<md-menu>
-  <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" id="test_open_match_menu" aria-label="Game menu">
-    <md-icon
-        class="material-icons">more_vert</md-icon>
+<md-menu class="md-secondary">
+  <md-button class="md-icon-button" 
+      ng-click="$mdOpenMenu($event)" id="test_open_match_menu" 
+      aria-label="Open game menu">
+    <md-icon class="material-icons">more_vert</md-icon>
   </md-button>
   <md-menu-content>
-    
-    <md-menu-item ng-if="main.currentMatch().canStartNewMatch()">
-      <md-button id="test_start_rematch" ng-click="main.currentMatch().startNewMatch()">
+    <md-menu-item ng-if="canShowPlayerBottomSheet(null, match)">
+      <md-button id="test_chat_match_list_item" 
+          ng-click="showPlayerBottomSheet(null, match)">
+        <md-icon class="material-icons">chat</md-icon>
+        {{ 'CHAT_ICON' | translate }}
+      </md-button>
+    </md-menu-item>
+    <md-menu-item ng-if="match.canStartNewMatch()">
+      <md-button id="test_start_rematch_match_list_item" ng-click="match.startNewMatch()">
         <md-icon class="material-icons">replay</md-icon>
-        {{ main.currentMatch().isSinglePlayer() ? 'MATCH_NEW_GAME' : 'REMATCH' | translate }}
+        {{ 'REMATCH' | translate }}
       </md-button>
     </md-menu-item>
     
-    <md-divider ng-if="!main.currentMatch().isSinglePlayer()" class="menu-divider"></md-divider>
-    <md-menu-item ng-if="!main.currentMatch().isSinglePlayer()">
-      <md-button class="md-warn" id="test_dismiss_match"
-          ng-click="main.currentMatch().dismissAndLoadNextMatchOrMainPage();">
+    <md-divider class="menu-divider"></md-divider>
+    <md-menu-item>
+      <md-button class="md-warn" id="test_dismiss_match_list_item"
+          ng-click="confirmDismiss(match)">
         <md-icon class="material-icons">delete</md-icon>
-        {{ main.currentMatch().isOver() ? 'MATCH_DELETE' : 'MATCH_RESIGN_AND_DELETE' | translate }}
+        {{ match.isOver() ? 'MATCH_DELETE' : 'MATCH_RESIGN_AND_DELETE' | translate }}
       </md-button>
     </md-menu-item>
   </md-menu-content>
 </md-menu>
--->
 </script>
 
 <script type="text/ng-template" id="html-templates/confirmDismissDialog.html">
@@ -486,16 +494,6 @@
       <span id="test_player_info_name">{{playerInBottomSheet().getDisplayName()}}</span>
     </div>
   </md-subheader>
-  <!-- in playPage there is already rematch in the playPage menu, so it's only confusing here,
-    especially when this opens after clicking on chat message notification. -->
-  <md-menu-item ng-if="!main.isInPage('/playGame/')">
-    <md-button class="md-list-item-content"
-        id="test_player_info_invite_to_match" 
-        ng-click="$mdBottomSheet.hide(); main.startMatchWith([playerInBottomSheet()])">
-      <md-icon class="material-icons">replay</md-icon>
-      <span class="md-inline-list-icon-label">{{ 'MODAL_BUTTON_INVITE_TO_NEW_MATCH' | translate }}</span>
-    </md-button>
-  </md-menu-item>
   <md-menu-item style="padding-left: 16px;padding-right: 16px; padding-top: 20px;">
     <md-input-container>
       <label>{{'CHAT_MESSAGE_LABEL' | translate }}</label>

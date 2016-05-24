@@ -79,10 +79,21 @@ w.gamingPlatformInitFinished = function () {
         ).then((feedback: string)=>main.sendFeedback(feedback));
       }
       
+      function getOpponent(match: gamingPlatform.api.Match) {
+        return match.getPlayers({limit:1, excludeMe: true})[0];
+      }
+      
+      function canShowPlayerBottomSheet(
+          player: gamingPlatform.api.Player, match: gamingPlatform.api.Match) {
+        if (!player) player = getOpponent(match);
+        return !(player.isMe() || player.isUnknown());
+      }
+      
       let playerInfoBottomSheetShowing = false;
       function showPlayerBottomSheet(
           player: gamingPlatform.api.Player, match: gamingPlatform.api.Match) {
-        if (player.isMe() || player.isUnknown()) return false;
+        if (!player) player = getOpponent(match);
+        if (player.isMe() || player.isUnknown()) return;
         
         playerInfoBottomSheetShowing = true;
         $mdBottomSheet.show({
@@ -138,6 +149,7 @@ w.gamingPlatformInitFinished = function () {
       $rootScope['$mdMenu'] = $mdMenu;
       
       $rootScope['showPlayerBottomSheet'] = showPlayerBottomSheet;
+      $rootScope['canShowPlayerBottomSheet'] = canShowPlayerBottomSheet;
       $rootScope['confirmDismiss'] = confirmDismiss;
       $rootScope['openFeedbackDialog'] = openFeedbackDialog;
       $rootScope.$watch("main.isModalShowing('gameOverModal')", gameOverModalShowingChanged);

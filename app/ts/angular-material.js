@@ -66,10 +66,20 @@
                         .openFrom('#test_open_feedback_modal')
                         .closeTo('#test_open_feedback_modal')).then(function (feedback) { return main.sendFeedback(feedback); });
                 }
+                function getOpponent(match) {
+                    return match.getPlayers({ limit: 1, excludeMe: true })[0];
+                }
+                function canShowPlayerBottomSheet(player, match) {
+                    if (!player)
+                        player = getOpponent(match);
+                    return !(player.isMe() || player.isUnknown());
+                }
                 var playerInfoBottomSheetShowing = false;
                 function showPlayerBottomSheet(player, match) {
+                    if (!player)
+                        player = getOpponent(match);
                     if (player.isMe() || player.isUnknown())
-                        return false;
+                        return;
                     playerInfoBottomSheetShowing = true;
                     $mdBottomSheet.show({
                         templateUrl: 'html-templates/playerInfoBottomSheet.html',
@@ -122,6 +132,7 @@
                 $rootScope['$mdDialog'] = $mdDialog;
                 $rootScope['$mdMenu'] = $mdMenu;
                 $rootScope['showPlayerBottomSheet'] = showPlayerBottomSheet;
+                $rootScope['canShowPlayerBottomSheet'] = canShowPlayerBottomSheet;
                 $rootScope['confirmDismiss'] = confirmDismiss;
                 $rootScope['openFeedbackDialog'] = openFeedbackDialog;
                 $rootScope.$watch("main.isModalShowing('gameOverModal')", gameOverModalShowingChanged);
