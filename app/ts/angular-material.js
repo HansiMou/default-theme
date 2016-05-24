@@ -67,19 +67,21 @@
                         .closeTo('#test_open_feedback_modal')).then(function (feedback) { return main.sendFeedback(feedback); });
                 }
                 function getOpponent(match) {
-                    return match.getPlayers({ limit: 1, excludeMe: true })[0];
+                    return match.getPlayers({ limit: 1, excludeMe: true, excludeSinglePlayer: true })[0];
                 }
                 function canShowPlayerBottomSheet(player, match) {
+                    if (match && match.isSinglePlayer())
+                        return false;
                     if (!player)
                         player = getOpponent(match);
                     return !(player.isMe() || player.isUnknown());
                 }
                 var playerInfoBottomSheetShowing = false;
                 function showPlayerBottomSheet(player, match) {
+                    if (!canShowPlayerBottomSheet(player, match))
+                        return;
                     if (!player)
                         player = getOpponent(match);
-                    if (player.isMe() || player.isUnknown())
-                        return;
                     playerInfoBottomSheetShowing = true;
                     $mdBottomSheet.show({
                         templateUrl: 'html-templates/playerInfoBottomSheet.html',

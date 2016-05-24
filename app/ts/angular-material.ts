@@ -80,11 +80,12 @@ w.gamingPlatformInitFinished = function () {
       }
       
       function getOpponent(match: gamingPlatform.api.Match) {
-        return match.getPlayers({limit:1, excludeMe: true})[0];
+        return match.getPlayers({limit:1, excludeMe: true, excludeSinglePlayer: true})[0];
       }
       
       function canShowPlayerBottomSheet(
           player: gamingPlatform.api.Player, match: gamingPlatform.api.Match) {
+        if (match && match.isSinglePlayer()) return false;
         if (!player) player = getOpponent(match);
         return !(player.isMe() || player.isUnknown());
       }
@@ -92,8 +93,8 @@ w.gamingPlatformInitFinished = function () {
       let playerInfoBottomSheetShowing = false;
       function showPlayerBottomSheet(
           player: gamingPlatform.api.Player, match: gamingPlatform.api.Match) {
+        if (!canShowPlayerBottomSheet(player, match)) return;
         if (!player) player = getOpponent(match);
-        if (player.isMe() || player.isUnknown()) return;
         
         playerInfoBottomSheetShowing = true;
         $mdBottomSheet.show({
