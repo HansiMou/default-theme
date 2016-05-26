@@ -6,29 +6,30 @@ module.exports = function(grunt) {
     // because, e.g., avatars are stored in many domains/URLs (facebook, etc).
     // However, in testing, it's better not to have "NETWORK: *" so we can test our appcache
     // (and make sure we didn't forget to include some JS/CSS/IMGs/etc).
+    isForTesting = false; // TODO: http&https issue (http://glennjones.net/articles/appcache-and-ssl): appcache from http doesn't work with files with https.
     return {
         options: {
           basePath: '.',
           cache: [
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular.min.js',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-route.min.js',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-animate.min.js',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-aria.min.js',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular.min.js',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-route.min.js',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-animate.min.js',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-aria.min.js',
             // For material design
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.js',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.css',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.js',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.css',
             // Material design icon font
-            //'http://fonts.gstatic.com/s/materialicons/v15/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/material-icons/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf',
+            //'https://fonts.gstatic.com/s/materialicons/v15/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/material-icons/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf',
             // Material design Roboto fonts
-            //'http://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/...',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/zN7GBFwfMP4uA6AR0HCoLQ.ttf',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/RxZJdnzeo3R5zSexge8UUaCWcynf_cDxXwCLxiixG1c.ttf',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/d-6IYplOFocCacKzxwXSOKCWcynf_cDxXwCLxiixG1c.ttf',
-            '//yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/W4wDsBUluyw0tK3tykhXEfesZW2xOQ-xsNqO47m55DA.ttf',
+            //'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/...',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/zN7GBFwfMP4uA6AR0HCoLQ.ttf',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/RxZJdnzeo3R5zSexge8UUaCWcynf_cDxXwCLxiixG1c.ttf',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/d-6IYplOFocCacKzxwXSOKCWcynf_cDxXwCLxiixG1c.ttf',
+            'https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/fonts/roboto/W4wDsBUluyw0tK3tykhXEfesZW2xOQ-xsNqO47m55DA.ttf',
             
             // For GamingPlatform
-            '//www.multiplayer-gaming.com/api/loader.min.js?app=v201',
+            'https://www.multiplayer-gaming.com/api/loader.min.js?app=v201',
             'ts/angular-material.js',
             'ts/app-l10n.js',
             'css/app.min.css',
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
             'imgs/autoMatchAvatar.png',
           ],
           network: !isForTesting ? ['*'] : 
-            ['//www.multiplayer-gaming.com/api/app.' + apiVersion + '.min.js',
+            ['https://www.multiplayer-gaming.com/api/app.' + apiVersion + '.min.js',
              'js/everything.min.js'],
           timestamp: true,
           process: !isForTesting ? null : function(path) {

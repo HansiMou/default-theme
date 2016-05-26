@@ -1,0 +1,26 @@
+{
+  "name": "yCheckers",
+  "short_name": "yCheckers",
+  "icons": [
+    {
+			"src": "https://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/shortcutIcon.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+  ],
+  "theme_color": "#2196F3",
+  "background_color": "#FAFAFA",
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "prefer_related_applications": true,
+  "related_applications": [
+  {
+    "platform": "play",
+    "url": "https://play.google.com/store/apps/details?id=com.gamingplatform.draughts",
+    "id": "com.gamingplatform.draughts"
+  }, {
+    "platform": "itunes",
+    "url": "https://itunes.apple.com/app/id1105953393"
+  }]
+}

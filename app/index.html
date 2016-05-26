@@ -5,21 +5,25 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#2196F3"> <!-- primaryPalette blue -->
+  <link rel="manifest" href="/manifest.webapp">
   <!-- I would love using in title:
   {{main.game().name()}}
   but it won't work for FB sharing because they don't run JS:
-  http://www.michaelbromley.co.uk/blog/171/enable-rich-social-sharing-in-your-angularjs-app
+  https://www.michaelbromley.co.uk/blog/171/enable-rich-social-sharing-in-your-angularjs-app
   If I ever switch to AppEngine for static content, I could solve it server-side.
    -->
   <title>yCheckers</title>
   <meta name="description" content="Cause checkers is fun with friends." 
     ng-attr-content="{{main.game().name()}}" >
-  <meta property="og:url" content="http://ycheckers.com" />
+  <meta property="og:url" content="https://ycheckers.com" />
+  <link rel="canonical" href="https://ycheckers.com" />
+  
   <meta property="og:type" content="website" />
   <meta property="og:title" content="yCheckers" />
   <meta property="og:site_name" content="yCheckers" />
   <meta property="og:description" content="Cause checkers is fun with friends." />
-  <meta property="og:image" content="http://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />  
+  <meta property="og:image" content="https://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />  
   <meta property="og:image:secure_url" content="https://yoav-zibin.github.io/Checkers_SMG/printscreens/used_in_developer_site/og-image.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <!-- see https://developers.facebook.com/docs/sharing/best-practices#images -->
@@ -27,6 +31,8 @@
   <meta property="og:image:height" content="628" />
   <meta property="fb:app_id" content="484379691769601" />
   
+  <link rel="icon" sizes="512x512" ng-attr-href="{{main.replaceProtocol(main.game().customize('shortcutIcon', ''))}}">
+
   <link rel="shortcut icon" type="image/x-icon" 
       ng-attr-href="{{main.replaceProtocol(main.game().customize('shortcutIcon', 'data:image/x-icon;,'))}}"
       href='data:image/x-icon;,'><!-- Suppress browser request for favicon.ico if you don't customize it -->
@@ -38,7 +44,7 @@
   <link rel="stylesheet" href="css/app.min.css"/>
 
   <!-- CSS for material design -->
-  <link rel="stylesheet" href="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.css">
+  <link rel="stylesheet" href="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.css">
 
 <script type="text/ng-template" id="html-templates/mainPage.html">
 <div layout="row" class="full_screen">
@@ -524,9 +530,14 @@
 </head>
 <body>
 
-<img ng-if="!main.isFinishedLoading()"
-  style="position: absolute; display:block; left: 0; top: 0; right: 0; bottom: 0; margin: auto;"
-  src="imgs/animatedEllipse.gif">
+<div ng-if="!main.isFinishedLoading()" class="loader">
+  <!-- TODO: Add game-specific splash img on AppEngine. 
+    <img style="position: absolute; display:block; left: 0; top: 0; right: 0; bottom: 0; margin: auto;"
+  src="imgs/animatedEllipse.gif"> -->
+  <svg class="circular" viewBox="25 25 50 50">
+    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+  </svg>
+</div>
 
 <div ng-if="main.isFinishedLoading()" class="full_screen" ng-cloak>
   <div ng-view class="full_screen"></div>
@@ -555,20 +566,20 @@
   </div>
 </div>
 
-<script crossorigin="anonymous" src="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular.min.js"></script>
+<script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular.min.js"></script>
 
-<script crossorigin="anonymous" src="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-route.min.js"></script>
+<script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-route.min.js"></script>
 
 <!-- Angular Material dependencies & libraries -->
-<script crossorigin="anonymous" src="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-animate.min.js"></script>
-<script crossorigin="anonymous" src="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-aria.min.js"></script>
+<script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-animate.min.js"></script>
+<script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-aria.min.js"></script>
 <!-- see what's the latest version here: https://cdnjs.com/libraries/angular-material/ --> 
-<script crossorigin="anonymous" src="//yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.js"></script>
+<script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-material.min.js"></script>
   
 
 <script src="ts/angular-material.js"></script>
 <script src="ts/app-l10n.js"></script>
-<script crossorigin="anonymous" src="//www.multiplayer-gaming.com/api/loader.min.js?app=v201"></script>
+<script crossorigin="anonymous" src="https://www.multiplayer-gaming.com/api/loader.min.js?app=v201"></script>
 
 </body>
 </html>

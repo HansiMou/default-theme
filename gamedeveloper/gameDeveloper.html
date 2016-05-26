@@ -10,14 +10,14 @@
   <!-- To ensure CSS files are downloaded in parallel, always include external CSS before external JavaScript. -->
   <link rel="stylesheet" href="css/gameDeveloper.min.css"/>
 
-  <script crossorigin="anonymous" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular.min.js"></script>
 
-  <script crossorigin="anonymous" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+  <script crossorigin="anonymous" src="https://yoav-zibin.github.io/angular-material-with-sourceMappingURL/angular-route.min.js"></script>
 
-  <link crossorigin="anonymous" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link crossorigin="anonymous" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
   
-<script crossorigin="anonymous" src="//www.multiplayer-gaming.com/api/loader.min.js?gamedeveloper=v201"></script>
+<script crossorigin="anonymous" src="https://www.multiplayer-gaming.com/api/loader.min.js?gamedeveloper=v201"></script>
 
   <script>
   function gamingPlatformInitFinished() {
@@ -108,7 +108,7 @@ otherwise({redirectTo: '/main'});
   <div class="form-group">
     <label>
       Game URL:
-      <input size="80" type="url" class="form-control" ng-model="developerGame.game.gameUrl" required placeholder="http://...">
+      <input size="80" type="url" class="form-control" ng-model="developerGame.game.gameUrl" required placeholder=" https://...">
     </label>
   </div>
   <div class="form-group">
@@ -163,7 +163,7 @@ otherwise({redirectTo: '/main'});
     <label>
       [Optional] AppStore App ID (for Apple):
       <input type="text" pattern="[0-9]+" class="form-control" ng-model="developerGame.game.iosAppId" placeholder="1054830030">
-      <a target="_blank" href="{{'http://itunes.apple.com/app/id' + developerGame.game.iosAppId}}">
+      <a target="_blank" href="{{' https://itunes.apple.com/app/id' + developerGame.game.iosAppId}}">
         Clicking here should open your app on Apple AppStore
       </a>
     </label>
@@ -257,28 +257,28 @@ otherwise({redirectTo: '/main'});
   
   <h4>[Optional] Printscreens</h4>
   <div class="form-group">
-    [Optional] Game icon URL (50x50 image, less than 5KB), which is shown on <a href="http://gameinvite.us" target="_blank">gameinvite.us</a>:
+    [Optional] Game icon URL (50x50 image, less than 5KB), which is shown on <a href=" https://gameinvite.us" target="_blank">gameinvite.us</a>:
     <table>
       <tr>
         <th ng-repeat="(langCode, lFields) in developerGame.game.languageToLocalizedGameFields">{{developerGame.getLangCodeAndName(langCode)}}</th>
       </tr>
       <tr>
         <td ng-repeat="(langCode, lFields) in developerGame.game.languageToLocalizedGameFields">
-          <input size="80" type="url" class="form-control" ng-model="lFields.gameIcon50x50Url" placeholder="http://...">
+          <input size="80" type="url" class="form-control" ng-model="lFields.gameIcon50x50Url" placeholder=" https://...">
           <img ng-src="{{lFields.gameIcon50x50Url}}" ng-if="lFields.gameIcon50x50Url" style="width:50px;height:50px">   
         </td>
       </tr>
     </table>
   </div>
   <div class="form-group">
-    [Optional] Game header URL (320x50 image, less than 50KB), which is shown on <a href="http://gameinvite.us" target="_blank">gameinvite.us</a>:
+    [Optional] Game header URL (320x50 image, less than 50KB), which is shown on <a href=" https://gameinvite.us" target="_blank">gameinvite.us</a>:
     <table>
       <tr>
         <th ng-repeat="(langCode, lFields) in developerGame.game.languageToLocalizedGameFields">{{developerGame.getLangCodeAndName(langCode)}}</th>
       </tr>
       <tr>
         <td ng-repeat="(langCode, lFields) in developerGame.game.languageToLocalizedGameFields">
-          <input size="80" type="url" class="form-control" ng-model="lFields.gameHeader320x50Url" placeholder="http://...">
+          <input size="80" type="url" class="form-control" ng-model="lFields.gameHeader320x50Url" placeholder=" https://...">
           <img ng-src="{{lFields.gameHeader320x50Url}}" ng-if="lFields.gameHeader320x50Url" style="width:320px;height:50px">   
         </td>
       </tr>
@@ -296,7 +296,7 @@ otherwise({redirectTo: '/main'});
       </tr>
       <tr>
         <td ng-repeat="(langCode, lFields) in developerGame.game.languageToLocalizedGameFields">         
-          <input size="80" type="url" class="form-control" ng-model="lFields.gameImageForSharingUrl" placeholder="http://...">
+          <input size="80" type="url" class="form-control" ng-model="lFields.gameImageForSharingUrl" placeholder=" https://...">
           <img ng-src="{{lFields.gameImageForSharingUrl}}" ng-if="lFields.gameImageForSharingUrl">   
         </td>
       </tr>
@@ -349,11 +349,11 @@ otherwise({redirectTo: '/main'});
     Then you can modify your fork, run grunt, and push to github.
     <br>
     <label>
-      Enter your theme URL here (either github.io, e.g., <code>http://yoav-zibin.github.io/default-theme/</code>,
-      or if you have your own domain, e.g., <code>http://gameinvite.us/</code>).
+      Enter your theme URL here (either github.io, e.g., <code> https://yoav-zibin.github.io/default-theme/</code>,
+      or if you have your own domain, e.g., <code> https://gameinvite.us/</code>).
       If you enter a URL, then any JS exceptions that happen will be emailed to you as bug reports.
-      The URL must match <code>http://SOMETHING/</code>:<br>
-      <input size="80" type="url" class="form-control" ng-model="developerGame.game.themeBaseUrl" pattern="^http[:][/][/].+[/]$" placeholder="http://yoav-zibin.github.io/default-theme/">
+      The URL must match <code> https://SOMETHING/</code>:<br>
+      <input size="80" type="url" class="form-control" ng-model="developerGame.game.themeBaseUrl" pattern="^https[:][/][/].+[/]$" placeholder=" https://yoav-zibin.github.io/default-theme/">
       <br>
     </label>
     <div ng-if="developerGame.game.themeBaseUrl">
@@ -369,9 +369,9 @@ otherwise({redirectTo: '/main'});
   
   <div class="form-group">
     <label>
-      Gameinvite URL (e.g., <code>http://gameinvite.us/</code>).
-      The URL must match <code>http://SOMETHING/</code>:<br>
-      <input size="80" type="url" class="form-control" ng-model="developerGame.game.themeGameinviteUrl" pattern="^http[:][/][/].+[/]$" placeholder="http://gameinvite.us/">
+      Gameinvite URL (e.g., <code> https://gameinvite.us/</code>).
+      The URL must match <code> https://SOMETHING/</code>:<br>
+      <input size="80" type="url" class="form-control" ng-model="developerGame.game.themeGameinviteUrl" pattern="^http[:][/][/].+[/]$" placeholder=" https://gameinvite.us/">
     </label>
   </div>
   <div class="form-group">
